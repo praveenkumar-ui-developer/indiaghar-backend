@@ -6,14 +6,23 @@ const product = express.Router();
 
 // Get all products
 product.get('/', async (req, res) => {
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 10;
+    const startIndex = (page - 1) * limit;
+
     try {
-        let products = await Product.find();
-        res.send(products);
+        const totalProducts = await Product.countDocuments();
+        const products = await Product.find().skip(startIndex).limit(limit);
+        res.send({
+            page,
+            limit,
+            total: totalProducts,
+            products
+        });
     } catch (error) {
         res.status(500).send({ error: 'Failed to fetch products' });
     }
 });
-
 // Create a new product
 product.post('/', async (req, res) => {
     try {
