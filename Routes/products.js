@@ -1,6 +1,6 @@
 const express = require('express');
-require('../db'); // Ensure this path is correct based on your project structure
-const Product = require('../Model/productsm'); // Ensure this path is correct based on your project structure
+require('../db'); 
+const Product = require('../Model/productsm'); 
 
 const product = express.Router();
 
